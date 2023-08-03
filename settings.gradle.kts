@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Logstronaut"
 include(":example")
+include(":logstronaut")
