@@ -24,6 +24,7 @@ class MainActivity : ComponentActivity() {
         CoroutineScope(Dispatchers.Default).launch {
             nestedFunc1()
         }
+        nestedFunc1()
 
         setContent {
             LogstronautTheme {
