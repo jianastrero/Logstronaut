@@ -1,6 +1,7 @@
 package dev.jianastrero.example
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,7 +18,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        "Hello World".logD()
+        testLog()
 
         setContent {
             LogstronautTheme {
@@ -44,4 +45,8 @@ fun GreetingPreview() {
     LogstronautTheme {
         Greeting("Android")
     }
+}
+
+fun testLog() {
+    "Hello World".logD()
 }
