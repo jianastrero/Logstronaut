@@ -70,13 +70,14 @@ fun nestedFunc3() {
         "Hello World",
         24,
         12.5,
+        'x',
         false,
-        13.64f,
         mapOf(
             "key" to "value",
             "key2" to 25,
             12 to 69.420f,
             69.420 to listOf("Hello world", "Hello world 2"),
         ),
+        13.64f,
     ).logD()
 }
