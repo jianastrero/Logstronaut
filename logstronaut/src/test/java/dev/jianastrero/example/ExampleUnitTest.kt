@@ -1,4 +1,4 @@
-package dev.jianastrero.logstronaut
+package dev.jianastrero.example
 
 import org.junit.Test
 

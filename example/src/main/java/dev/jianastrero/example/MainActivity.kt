@@ -1,4 +1,4 @@
-package dev.jianastrero.logstronaut
+package dev.jianastrero.example
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,11 +10,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import dev.jianastrero.logstronaut.ui.theme.LogstronautTheme
+import dev.jianastrero.example.logger.logD
+import dev.jianastrero.example.ui.theme.LogstronautTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        "Hello World".logD()
+
         setContent {
             LogstronautTheme {
                 // A surface container using the 'background' color from the theme

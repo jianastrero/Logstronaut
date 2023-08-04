@@ -1,4 +1,4 @@
-package dev.jianastrero.logstronaut.ui.theme
+package dev.jianastrero.example.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
