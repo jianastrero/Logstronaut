@@ -23,11 +23,21 @@ private fun <T> T.generateLog(): String {
     list.forEachIndexed { index, logItems ->
         logItems.forEach { logItem ->
             val tabs = logItem.depth.tabs()
-            val remainingSpace = length - logItem.message.toString().length - Logstronaut.paddingStart - tabs.length
-            log += "│${" " * Logstronaut.paddingStart}$tabs${logItem.message.toString()}${" " * remainingSpace}│\n"
+            when (logItem.message) {
+                is List<*> -> {
+
+                }
+                else -> {
+                    val remainingSpace = length -
+                            logItem.message.toString().length -
+                            Logstronaut.paddingStart -
+                            tabs.length
+                    log += "$tabs${logItem.message.toString()}".createLine(remainingSpace)
+                }
+            }
         }
         if (index != list.lastIndex) {
-            log += "├${"─" * length}┤\n"
+            log += length.createSeparator()
         }
     }
     log += "╰${"─" * length}╯"
@@ -96,12 +106,8 @@ private fun <T> T.generateVariable(depth: Int): List<LogItem<*>> {
     return list
 }
 
-private fun Collection<*>.generateCollection(depth: Int): List<LogItem<*>> {
-    val list = mutableListOf<LogItem<*>>()
-    list.add(LogItem(depth, "["))
-    forEachIndexed { index, item ->
-        val variables = item.generateVariable(depth + 1)
-        val comma = if (index < size - 1) "," else ""
+private fun Collection<*>.generateCollection(depth: Int): List<LogItem<*>> = listOf(LogItem(depth, this))
+private fun Array<*>.generateArray(depth: Int) = listOf(LogItem(depth, toList()))
 
         variables.forEach { variable ->
             list.add(LogItem(variable.depth, "${variable.message}$comma", variable.time))
@@ -115,4 +121,6 @@ private fun Array<*>.generateArray(depth: Int) = toList().generateCollection(dep
 
 private operator fun String.times(times: Int): String = repeat(times)
 private fun Int.tabs(): String = " " * (4 * this)
-
+private fun String.createLine(remainingSpace: Int) =
+    "│${" " * Logstronaut.paddingStart}$this${" " * remainingSpace}│\n"
+private fun Int.createSeparator() = "├${"─" * this}┤\n"
