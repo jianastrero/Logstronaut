@@ -1,7 +1,6 @@
 package dev.jianastrero.example
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,13 +12,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import dev.jianastrero.logstronaut.logger.logD
 import dev.jianastrero.example.ui.theme.LogstronautTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         testLog()
-        nestedFunc1()
+        CoroutineScope(Dispatchers.Default).launch {
+            nestedFunc1()
+        }
 
         setContent {
             LogstronautTheme {
