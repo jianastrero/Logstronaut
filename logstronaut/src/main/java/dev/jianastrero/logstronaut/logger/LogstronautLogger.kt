@@ -90,9 +90,7 @@ private fun <T> T.generateVariable(depth: Int): List<LogItem<*>> {
         is Char -> list.add(LogItem(depth, "'$this'"))
         is Array<*> -> list.addAll(generateArray(depth))
         is Collection<*> -> list.addAll(generateCollection(depth))
-        else -> {
-            list.add(LogItem(depth, generateVariable(depth)))
-        }
+        else -> list.add(LogItem(depth, generateVariable(depth)))
     }
 
     return list
