@@ -1,4 +1,4 @@
-package dev.jianastrero.logstronaut.default
+package dev.jianastrero.logstronaut.defaults
 
 import java.util.logging.Level
 

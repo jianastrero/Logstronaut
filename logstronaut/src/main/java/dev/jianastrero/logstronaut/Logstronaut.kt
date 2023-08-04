@@ -1,6 +1,6 @@
 package dev.jianastrero.logstronaut
 
-import dev.jianastrero.logstronaut.default.LogColorDefaults
+import dev.jianastrero.logstronaut.defaults.LogColorDefaults
 import java.util.logging.Level
 
 object Logstronaut {
