@@ -10,7 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import dev.jianastrero.example.logger.logD
+import dev.jianastrero.logstronaut.logger.logD
 import dev.jianastrero.example.ui.theme.LogstronautTheme
 
 class MainActivity : ComponentActivity() {
