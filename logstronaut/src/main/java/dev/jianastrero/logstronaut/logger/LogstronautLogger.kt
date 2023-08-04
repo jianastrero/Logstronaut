@@ -22,17 +22,12 @@ private fun <T> T.generateLog(): String {
     var log = "╭${"─" * length}╮\n"
     list.forEachIndexed { index, logItems ->
         logItems.forEach { logItem ->
-            val tabs = logItem.depth.tabs()
             when (logItem.message) {
                 is List<*> -> {
 
                 }
                 else -> {
-                    val remainingSpace = length -
-                            logItem.message.toString().length -
-                            Logstronaut.paddingStart -
-                            tabs.length
-                    log += "$tabs${logItem.message.toString()}".createLine(remainingSpace)
+                    log += logItem.message.toString().createLine(logItem.depth, length)
                 }
             }
         }
@@ -121,6 +116,8 @@ private fun Array<*>.generateArray(depth: Int) = toList().generateCollection(dep
 
 private operator fun String.times(times: Int): String = repeat(times)
 private fun Int.tabs(): String = " " * (4 * this)
-private fun String.createLine(remainingSpace: Int) =
-    "│${" " * Logstronaut.paddingStart}$this${" " * remainingSpace}│\n"
+private fun String.createLine(indent: Int, characters: Int): String {
+    val remainingSpace = characters - Logstronaut.paddingStart - length - (indent * 4)
+    return "│${" " * Logstronaut.paddingStart}${indent.tabs()}$this${" " * remainingSpace}│\n"
+}
 private fun Int.createSeparator() = "├${"─" * this}┤\n"
