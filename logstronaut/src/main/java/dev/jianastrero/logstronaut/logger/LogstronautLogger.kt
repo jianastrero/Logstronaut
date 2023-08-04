@@ -12,7 +12,8 @@ fun <T> T.logD() {
 private fun <T> T.generateLog(): String {
     val list = listOf(
         generateTitle(),
-        generateStackTrace()
+        generateStackTrace(),
+        generateVariable(0)
     )
     val length = list.maxOf { it.maxOf { item -> item.message.toString().length + item.depth * 4 } } +
             Logstronaut.paddingStart +
@@ -77,6 +78,42 @@ private fun generateStackTrace(): List<LogItem<*>> {
     }
     return list
 }
+
+private fun <T> T.generateVariable(depth: Int): List<LogItem<*>> {
+    val list = mutableListOf<LogItem<*>>()
+
+    when (this) {
+        null -> list.add(LogItem(depth, "null"))
+        is Boolean -> list.add(LogItem(depth, this.toString()))
+        is Number -> list.add(LogItem(depth, this.toString()))
+        is String -> list.add(LogItem(depth, "\"$this\""))
+        is Char -> list.add(LogItem(depth, "'$this'"))
+        is Array<*> -> list.addAll(generateArray(depth))
+        is Collection<*> -> list.addAll(generateCollection(depth))
+        else -> {
+            list.add(LogItem(depth, generateVariable(depth)))
+        }
+    }
+
+    return list
+}
+
+private fun Collection<*>.generateCollection(depth: Int): List<LogItem<*>> {
+    val list = mutableListOf<LogItem<*>>()
+    list.add(LogItem(depth, "["))
+    forEachIndexed { index, item ->
+        val variables = item.generateVariable(depth + 1)
+        val comma = if (index < size - 1) "," else ""
+
+        variables.forEach { variable ->
+            list.add(LogItem(variable.depth, "${variable.message}$comma", variable.time))
+        }
+    }
+    list.add(LogItem(depth, "]"))
+    return list
+}
+
+private fun Array<*>.generateArray(depth: Int) = toList().generateCollection(depth)
 
 private operator fun String.times(times: Int): String = repeat(times)
 private fun Int.tabs(): String = " " * (4 * this)
