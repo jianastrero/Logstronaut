@@ -14,7 +14,7 @@ fun LogItem<*>.maxMessageLength(depth: Int): Int =
         is Collection<*> -> message.maxOf { it.maxMessageLength(depth) }
         is Array<*> -> message.maxOf { it.maxMessageLength(depth) }
         is Map<*, *> -> message.maxOf { it.maxMessageLength(depth) }
-        is LogItem<*> -> message.maxMessageLength(depth)
+        is LogItem<*> -> message.maxMessageLength(depth + message.depth)
         else -> message.toString().length + (depth * 4)
     }
 
@@ -23,7 +23,7 @@ private fun <T> T.maxMessageLength(depth: Int): Int =
         is Collection<*> -> maxOf { it.maxMessageLength(depth) }
         is Array<*> -> maxOf { it.maxMessageLength(depth) }
         is Map<*, *> -> maxOf(keys.maxOf { it.maxMessageLength(depth) }, values.maxOf { it.maxMessageLength(depth) })
-        is LogItem<*> -> maxMessageLength(depth)
+        is LogItem<*> -> maxMessageLength(depth + this.depth)
         else -> toString().length + (depth * 4)
     }
 
@@ -35,7 +35,7 @@ fun LogItem<*>.stringMessage(depth: Int): List<String> =
             .zip(message.values.flatMap { it.stringMessage(depth) }).map { (key, value) ->
                 "$key: ${value.trim()}"
             }
-        is LogItem<*> -> stringMessage(depth)
+        is LogItem<*> -> stringMessage(depth + this.depth + message.depth)
         else -> listOf("${depth.tabs()}$message")
     }
 
@@ -47,6 +47,6 @@ private fun <T> T.stringMessage(depth: Int): List<String> =
             .zip(values.flatMap { it.stringMessage(depth) }).map { (key, value) ->
                 "$key: ${value.trim()}"
             }
-        is LogItem<*> -> stringMessage(depth)
+        is LogItem<*> -> stringMessage(depth + this.depth)
         else -> listOf("${depth.tabs()}$this")
     }
