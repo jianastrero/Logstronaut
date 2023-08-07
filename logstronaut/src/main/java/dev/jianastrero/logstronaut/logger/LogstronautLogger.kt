@@ -2,6 +2,9 @@ package dev.jianastrero.logstronaut.logger
 
 import android.util.Log
 import dev.jianastrero.logstronaut.Logstronaut
+import dev.jianastrero.logstronaut.util.maxMessageLength
+import dev.jianastrero.logstronaut.util.stringMessage
+import dev.jianastrero.logstronaut.util.times
 
 fun <T> T.logD() {
     val log = generateLog()
@@ -95,8 +98,6 @@ private fun Collection<*>.generateCollection(depth: Int): List<Loggable<*>> =
     listOf(loggable(depth, this))
 private fun Array<*>.generateArray(depth: Int) = listOf(loggable(depth, toList()))
 
-private operator fun String.times(times: Int): String = repeat(times)
-internal fun Int.tabs(): String = " " * (4 * this)
 private fun Int.createSeparator() = "├${"─" * this}┤\n"
 
 private fun String.createLine(indent: Int, maxCharacters: Int): String {
