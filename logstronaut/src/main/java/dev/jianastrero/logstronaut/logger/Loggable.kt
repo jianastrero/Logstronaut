@@ -18,5 +18,3 @@ internal fun <T> loggable(
     override val message: T = message
     override val time: String = time
 }
-
-internal fun Int.tabs(): String = " " * (4 * this)
