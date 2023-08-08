@@ -1,14 +1,13 @@
 package dev.jianastrero.logstronaut.util
 
 import dev.jianastrero.logstronaut.logger.Loggable
-import dev.jianastrero.logstronaut.logger.tabs
 
 internal fun Loggable<*>.stringMessage(depth: Int): List<String> =
     when(message) {
         is Collection<*> -> (message as Collection<*>).message(depth)
         is Array<*> -> (message as Array<*>).message(depth)
         is Map<*, *> -> (message as Map<*, *>).message(depth)
-        is Loggable<*> -> (message as Loggable<*>).message(depth + this.depth)
+        is Loggable<*> -> (message as Loggable<*>).stringMessage(depth + this.depth)
         else -> anyMessage(depth)
     }
 
@@ -17,7 +16,7 @@ private fun <T> T.stringMessage(depth: Int): List<String> =
         is Collection<*> -> message(depth)
         is Array<*> -> message(depth)
         is Map<*, *> -> message(depth)
-        is Loggable<*> -> message(depth)
+        is Loggable<*> -> stringMessage(depth + this.depth)
         else -> anyMessage(depth)
     }
 
@@ -28,5 +27,4 @@ private fun Map<*, *>.message(depth: Int): List<String> =
         .zip(values.flatMap { it.stringMessage(depth) }).map { (key, value) ->
             "$key: ${value.trim()}"
         }
-private fun Loggable<*>.message(depth: Int): List<String> = stringMessage(depth + this.depth)
 private fun <T> T.anyMessage(depth: Int): List<String> = listOf("${depth.tabs()}$this")
