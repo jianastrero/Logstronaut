@@ -6,6 +6,12 @@ import dev.jianastrero.logstronaut.util.maxMessageLength
 import dev.jianastrero.logstronaut.util.stringMessage
 import dev.jianastrero.logstronaut.util.times
 
+/**
+ * Logs a debug message to the system log. The message is generated using the `generateLog()` function
+ * and is logged with the `Log.d()` method from the Android `Log` class.
+ *
+ * @param T the type of the object calling this method.
+ */
 fun <T> T.logD() {
     val log = generateLog()
     Log.d(null, log)
@@ -38,6 +44,7 @@ private fun <T> T.generateLog(): String {
 }
 
 private fun Int.startLog() = "╭${"─" * this}╮\n"
+
 private fun Int.endLog() = "╰${"─" * this}╯"
 
 private fun generateTitle(): Loggable<*> {
@@ -96,6 +103,7 @@ private fun <T> T.generateVariable(depth: Int): List<Loggable<*>> {
 
 private fun Collection<*>.generateCollection(depth: Int): List<Loggable<*>> =
     listOf(loggable(depth, this))
+
 private fun Array<*>.generateArray(depth: Int) = listOf(loggable(depth, toList()))
 
 private fun Int.createSeparator() = "├${"─" * this}┤\n"
