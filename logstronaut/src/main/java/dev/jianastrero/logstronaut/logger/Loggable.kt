@@ -1,7 +1,6 @@
 package dev.jianastrero.logstronaut.logger
 
 import dev.jianastrero.logstronaut.time.getCurrentUtcTimeAsString
-import dev.jianastrero.logstronaut.util.times
 
 interface Loggable<T> {
     val depth: Int
